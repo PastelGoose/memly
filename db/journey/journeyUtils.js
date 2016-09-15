@@ -14,10 +14,9 @@ var createAndSaveNewJourney = function(req, cb) {
   // newJourney.avatarUrl = 'AVATAR URL';
 
   newJourney.journeyTitle = req.body.journeyTitle;
-  newJourney.visits = 1;
+  newJourney.visits = 0;
   newJourney.createdDate = new Date();
   newJourney.pages = req.body.pages;
-  newJourney.caption = req.body.caption;
   
   // search DB to find and attach memly ID and location?
   // Async forEach without Promises:
@@ -28,9 +27,9 @@ var createAndSaveNewJourney = function(req, cb) {
 
     newJourney.pages.forEach(function(page, index) {
       
-      //do stuff
       Memly.findOne({'media.url': page.imgUrl}, function(err, result) {
         if (err) {
+          pagesProcessed++;
           console.log('there was an error inside journeyUtils: ', err);
         } else {
 
@@ -52,8 +51,6 @@ var createAndSaveNewJourney = function(req, cb) {
           }
         }
       });
-
-      
 
     });
   } else {
