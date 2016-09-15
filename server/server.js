@@ -184,6 +184,22 @@ app.post('/user/edit/profileinfo/', helper.isLoggedIn, function(req, res) {
 
 });
 
+app.get('/user/story/', helper.isLoggedIn, function(req, res) {
+  if (req.session.passport.user) {
+    var userID = req.session.passport.user['_id'];
+  
+    User.findOne({_id: userID}).exec(function(err, found) {
+      if (err) {
+        res.status(404).send('I don\' know who you are!');
+      } else {
+        res.status(200).send('Hello World and ' + found.name + '!');
+      }
+    }); 
+  } else {
+    res.redirect('http://localhost:3000/#');
+  }
+
+});
 
 
 
