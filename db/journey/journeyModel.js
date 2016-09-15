@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var storySchema = new Schema({
+var journeySchema = new Schema({
   userId: String,
-  storyTitle: String,
+  journeyTitle: String,
   visits: Number,
   createdDate: Date,
   pages: [{
-    pageOrder: Number,
+    order: Number,
     memlyId: String,
     imgUrl: String,
     location: {
@@ -18,4 +18,4 @@ var storySchema = new Schema({
   }]
 });
 
-exports.storyModel = mongoose.model('Story', storySchema);
+exports.journeyModel = mongoose.model('Journey', journeySchema);

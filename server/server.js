@@ -15,6 +15,7 @@ var User = require('../db/users/userModel.js').userModel;
 var mongoose = require('mongoose');
 var db = require('../db/database.js');
 var helper = require('./helperFunctions.js');
+var createAndSaveNewJourney = require('../db/journey/journeyUtils.js').createAndSaveNewJourney;
 //------ instantiate app. connect middleware. -----//
 var app = express();
 
@@ -184,7 +185,7 @@ app.post('/user/edit/profileinfo/', helper.isLoggedIn, function(req, res) {
 
 });
 
-app.get('/user/story/', helper.isLoggedIn, function(req, res) {
+app.get('/user/journey/', helper.isLoggedIn, function(req, res) {
   if (req.session.passport.user) {
     var userID = req.session.passport.user['_id'];
   
@@ -198,6 +199,19 @@ app.get('/user/story/', helper.isLoggedIn, function(req, res) {
   } else {
     res.redirect('http://localhost:3000/#');
   }
+
+});
+
+app.post('/user/journey/', function(req, res) {
+//app.post('/user/journey/', helper.isLoggedIn, function(req, res) {
+
+  //if (req.session.passport.user) {
+  createAndSaveNewJourney(req, function() {
+    res.sendStatus(201);
+  });
+  //} else {
+  //res.redirect('http://localhost:3000/#');
+  //}
 
 });
 
