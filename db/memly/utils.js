@@ -1,4 +1,4 @@
-var Memly = require('./model');
+var Memly = require('./model').memlyModel;
 
 exports.createAndSaveNewMemly = function(req, res, mediaUrl) {
   // Create new instance of Memly and save to database

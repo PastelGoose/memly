@@ -50,7 +50,7 @@ userSchema = new Schema({
   }
 // We have set below _id to false to use
 // FB id's instead of mongo-generated id's
-},{ _id: false });
+}, { _id: false });
 
 userSchema.statics.findOrCreate = function(profile, cb) {
   //console.log('checking what profile is before findone', profile);
@@ -81,6 +81,4 @@ userSchema.statics.findOrCreate = function(profile, cb) {
   });
 };
 
-var User = mongoose.model('User', userSchema);
-
-module.exports = User;
+exports.userModel = mongoose.model('User', userSchema);

@@ -5,7 +5,7 @@ var session = require('express-session');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var config = require('./config.js');
-var User = require('../users/userModel.js');
+var User = require('../users/userModel.js').userModel;
 
 var env = new config.env();
 console.log(env.FACEBOOK_APP_ID);
