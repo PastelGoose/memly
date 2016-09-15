@@ -4,13 +4,14 @@ var Memly = require('../memly/model').memlyModel;
 var createAndSaveNewJourney = function(req, cb) {
   // Create new instance of Journey and save to database
   var newJourney = new Journey();
-  // newJourney.userId = req.session.passport.user._id;
-  // newJourney.avatarUrl = req.session.passport.user.profilePhotoUrl;
-  // newJourney.username = req.session.passport.user.name.split(' ')[0];
   
-  newJourney.username = 'HR47_EXTREME';
-  newJourney.userId = 'asdfasdfasdf12341234';
-  newJourney.avatarUrl = 'AVATAR URL';
+  newJourney.userId = req.session.passport.user._id;
+  newJourney.avatarUrl = req.session.passport.user.profilePhotoUrl;
+  newJourney.username = req.session.passport.user.name.split(' ')[0];
+  
+  // newJourney.username = 'HR47_EXTREME';
+  // newJourney.userId = 'asdfasdfasdf12341234';
+  // newJourney.avatarUrl = 'AVATAR URL';
 
   newJourney.journeyTitle = req.body.journeyTitle;
   newJourney.visits = 1;
@@ -30,24 +31,22 @@ var createAndSaveNewJourney = function(req, cb) {
       //do stuff
       Memly.findOne({'media.url': page.imgUrl}, function(err, result) {
         if (err) {
-          
-
           console.log('there was an error inside journeyUtils: ', err);
         } else {
 
-          console.log('setting location');
-          newJourney.pages[index].memlyId = 'fakeid with index' + index;
-          newJourney.pages[index].location = {lat: index + 100, lng: index + 50};
+          // console.log('setting location');
+          // newJourney.pages[index].memlyId = 'fakeid with index' + index;
+          // newJourney.pages[index].location = {lat: index + 100, lng: index + 50};
 
           //console.log('testing with dummy data without auth......');
           //console.log(index);
           //console.log('newJourney.pages is: ', newJourney.pages);
-          // newJourney.pages[index].memlyId = result._id;
-          // newJourney.pages[index].location = {lat: result.location.lat, lng: result.location.lng};
+          newJourney.pages[index].memlyId = result._id;
+          newJourney.pages[index].location = {lat: result.location.lat, lng: result.location.lng};
           pagesProcessed++;
 
           if (pagesProcessed === pagesLength) {
-            console.log('======= newJourney save triggered', newJourney);
+            //console.log('======= newJourney save triggered', newJourney);
             newJourney.save();
             cb();
           }

@@ -186,46 +186,37 @@ app.post('/user/edit/profileinfo/', helper.isLoggedIn, function(req, res) {
 
 });
 
-app.get('/user/journey/', function(req, res) {
-//app.get('/user/journey/', helper.isLoggedIn, function(req, res) {
-  //if (req.session.passport.user) {
-    //var userID = req.session.passport.user['_id'];
-    // var userID = 'asdfasdfasdf12341234';
-    // Journey.find({userId: userID}).exec(function(err, found) {
-    //   if (err) {
-    //     res.status(404).send('I don\' know who you are!');
-    //   } else {
-    //     res.status(200).send(found);
-    //   }
-    // }); 
-  //} else {
-    var userID = 'asdfasdfasdf12341234';
+//app.get('/user/journey/', function(req, res) {
+app.get('/user/journey/', helper.isLoggedIn, function(req, res) {
+  if (req.session.passport.user) {
+    var userID = req.session.passport.user['_id'];
+    //var userID = 'asdfasdfasdf12341234';
     Journey.find({userId: userID}).exec(function(err, found) {
       if (err) {
         res.status(404).send('I don\' know who you are!');
       } else {
-        res.status(200).send(found);
+        res.status(200).json({journeys: found});
       }
     }); 
-    //res.redirect('http://localhost:3000/#');
- // }
+  } else {
+    //var userID = 'asdfasdfasdf12341234';
+    res.redirect('http://localhost:3000/#');
+  }
 
 });
 
-app.post('/user/journey/', function(req, res) {
-//app.post('/user/journey/', helper.isLoggedIn, function(req, res) {
+//app.post('/user/journey/', function(req, res) {
+app.post('/user/journey/', helper.isLoggedIn, function(req, res) {
 
-  //if (req.session.passport.user) {
-  createAndSaveNewJourney(req, function() {
-    res.sendStatus(201);
-  });
-  //} else {
-  //res.redirect('http://localhost:3000/#');
-  //}
+  if (req.session.passport.user) {
+    createAndSaveNewJourney(req, function() {
+      res.sendStatus(201);
+    });
+  } else {
+    res.redirect('http://localhost:3000/#');
+  }
 
 });
-
-
 
 //Log out of session
 app.get('/logout', function(req, res) {
