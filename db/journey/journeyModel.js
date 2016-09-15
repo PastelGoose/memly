@@ -3,6 +3,8 @@ var Schema = mongoose.Schema;
 
 var journeySchema = new Schema({
   userId: String,
+  avatarUrl: String,
+  username: String,
   journeyTitle: String,
   visits: Number,
   createdDate: Date,

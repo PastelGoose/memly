@@ -3,11 +3,16 @@ var Memly = require('../memly/model').memlyModel;
 
 var createAndSaveNewJourney = function(req, cb) {
   // Create new instance of Journey and save to database
-  console.log('-----req.body', req.body);
   var newJourney = new Journey();
-  //newJourney.userId = req.session.passport.user._id;
-  //newJourney.username = req.session.passport.user.name.split(' ')[0];
-  //newJourney.avatarUrl = req.session.passport.user.profilePhotoUrl;
+  newJourney.userId = req.session.passport.user._id;
+  newJourney.avatarUrl = req.session.passport.user.profilePhotoUrl;
+  newJourney.username = req.session.passport.user.name.split(' ')[0];
+  
+  // newJourney.username = 'HR47_EXTREME';
+  // newJourney.userId = 'asdfasdfasdf12341234';
+  // newJourney.avatarUrl = 'AVATAR URL';
+
+
   newJourney.journeyTitle = req.body.journeyTitle;
   newJourney.visits = 1;
   newJourney.createdDate = new Date();
@@ -19,33 +24,46 @@ var createAndSaveNewJourney = function(req, cb) {
   var pagesLength = newJourney.pages.length;
   var pagesProcessed = 0;
 
-  // if (pagesLength !== 0) {
+  if (pagesLength !== 0) {
 
-  //   newJourney.pages.forEach(function(page, index) {
-  //     pagesProcessed++;
+    newJourney.pages.forEach(function(page, index) {
+      
+      //do stuff
+      Memly.findOne({'media.url': page.imgUrl}, function(err, result) {
+        if (err) {
+          
 
-  //     //do stuff
-  //     Memly.findOne({'media.url': page.imgUrl}, function(err, result) {
-  //       if (err) {
-  //         console.log('there was an error inside journeyUtils: ', err);
-  //       } else {
-  //         newJourney.pages[index].memlyId = result._id;
-  //         newJourney.pages[index].location = {lat: result.location.lat, lng: result.location.lng};
-  //       }
-  //     });
+          console.log('there was an error inside journeyUtils: ', err);
+        } else {
 
-  //     if (pagesProcessed === pagesLength) {
-  //       newJourney.save();
-  //       cb();
-  //     }
+          console.log('setting location');
+          newJourney.pages[index].memlyId = 'fakeid with index' + index;
+          newJourney.pages[index].location = {lat: index + 100, lng: index + 50};
 
-  //   });
-  // } else {
-  //   console.log('No Pages!');
-  // }
+          //console.log('testing with dummy data without auth......');
+          //console.log(index);
+          //console.log('newJourney.pages is: ', newJourney.pages);
+          // newJourney.pages[index].memlyId = result._id;
+          // newJourney.pages[index].location = {lat: result.location.lat, lng: result.location.lng};
+          pagesProcessed++;
 
-  newJourney.save();
-  cb();
+          if (pagesProcessed === pagesLength) {
+            console.log('======= newJourney save triggered', newJourney);
+            newJourney.save();
+            cb();
+          }
+        }
+      });
+
+      
+
+    });
+  } else {
+    console.log('No Pages!');
+  }
+
+  // newJourney.save();
+  // cb();
 };
 
 exports.createAndSaveNewJourney = createAndSaveNewJourney;
