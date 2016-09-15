@@ -16,6 +16,7 @@ var mongoose = require('mongoose');
 var db = require('../db/database.js');
 var helper = require('./helperFunctions.js');
 var createAndSaveNewJourney = require('../db/journey/journeyUtils.js').createAndSaveNewJourney;
+var Journey = require('../db/journey/journeyModel').journeyModel;
 //------ instantiate app. connect middleware. -----//
 var app = express();
 
@@ -185,20 +186,29 @@ app.post('/user/edit/profileinfo/', helper.isLoggedIn, function(req, res) {
 
 });
 
-app.get('/user/journey/', helper.isLoggedIn, function(req, res) {
-  if (req.session.passport.user) {
-    var userID = req.session.passport.user['_id'];
-  
-    User.findOne({_id: userID}).exec(function(err, found) {
+app.get('/user/journey/', function(req, res) {
+//app.get('/user/journey/', helper.isLoggedIn, function(req, res) {
+  //if (req.session.passport.user) {
+    //var userID = req.session.passport.user['_id'];
+    // var userID = 'asdfasdfasdf12341234';
+    // Journey.find({userId: userID}).exec(function(err, found) {
+    //   if (err) {
+    //     res.status(404).send('I don\' know who you are!');
+    //   } else {
+    //     res.status(200).send(found);
+    //   }
+    // }); 
+  //} else {
+    var userID = 'asdfasdfasdf12341234';
+    Journey.find({userId: userID}).exec(function(err, found) {
       if (err) {
         res.status(404).send('I don\' know who you are!');
       } else {
-        res.status(200).send('Hello World and ' + found.name + '!');
+        res.status(200).send(found);
       }
     }); 
-  } else {
-    res.redirect('http://localhost:3000/#');
-  }
+    //res.redirect('http://localhost:3000/#');
+ // }
 
 });
 

@@ -4,14 +4,13 @@ var Memly = require('../memly/model').memlyModel;
 var createAndSaveNewJourney = function(req, cb) {
   // Create new instance of Journey and save to database
   var newJourney = new Journey();
-  newJourney.userId = req.session.passport.user._id;
-  newJourney.avatarUrl = req.session.passport.user.profilePhotoUrl;
-  newJourney.username = req.session.passport.user.name.split(' ')[0];
+  // newJourney.userId = req.session.passport.user._id;
+  // newJourney.avatarUrl = req.session.passport.user.profilePhotoUrl;
+  // newJourney.username = req.session.passport.user.name.split(' ')[0];
   
-  // newJourney.username = 'HR47_EXTREME';
-  // newJourney.userId = 'asdfasdfasdf12341234';
-  // newJourney.avatarUrl = 'AVATAR URL';
-
+  newJourney.username = 'HR47_EXTREME';
+  newJourney.userId = 'asdfasdfasdf12341234';
+  newJourney.avatarUrl = 'AVATAR URL';
 
   newJourney.journeyTitle = req.body.journeyTitle;
   newJourney.visits = 1;
